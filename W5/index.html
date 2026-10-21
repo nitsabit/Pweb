@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Management</title>
+  <link rel="stylesheet" href="D:\Coolyeah\PWeb\W5\style.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="brand">
+      <svg viewBox="0 0 24 24" style="fill:white;stroke:none"><path d="M12 3 1 9l11 6 9-4.9V17h2V9L12 3zm-6 9.2V16c0 1.7 2.7 3 6 3s6-1.3 6-3v-3.8l-6 3.3-6-3.3z"/></svg>
+      <span>Student Management</span>
+    </div>
+    <nav class="nav-menu">
+      <a href="#">Home</a>
+      <a href="#">Students</a>
+      <a href="#">About</a>
+      <span class="avatar">
+        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 4a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7zm0 14.2a8 8 0 0 1-6.2-3c.1-2 4.1-3.1 6.2-3.1s6.1 1.1 6.2 3.1a8 8 0 0 1-6.2 3z" style="fill:white"/></svg>
+      </span>
+    </nav>
+  </header>
+
+  <main class="container">
+
+    <!-- FORM STUDENT -->
+    <section class="card">
+      <h2>Form Student</h2>
+      <form id="studentForm">
+        <div class="form-group">
+          <label for="nim">NIM</label>
+          <input type="text" id="nim" placeholder="Masukkan NIM" required>
+        </div>
+        <div class="form-group">
+          <label for="nama">Nama Lengkap</label>
+          <input type="text" id="nama" placeholder="Masukkan nama lengkap" required>
+        </div>
+        <div class="form-group">
+          <label for="jurusan">Jurusan</label>
+          <select id="jurusan" required>
+            <option value="">Pilih Jurusan</option>
+            <option>Informatika</option>
+            <option>Sistem Informasi</option>
+            <option>Teknik Komputer</option>
+            <option>Manajemen</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="Masukkan email" required>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">
+            <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>
+            Simpan
+          </button>
+          <button type="button" class="btn btn-secondary" id="btnBatal">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg>
+            Batal
+          </button>
+          <button type="reset" class="btn btn-danger" id="btnReset">
+            <svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg>
+            Reset
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- DATA MAHASISWA -->
+    <section class="card">
+      <div class="table-header">
+        <h2>Data Mahasiswa</h2>
+        <div class="search-box">
+          <input type="text" id="search" placeholder="Cari mahasiswa...">
+          <button type="button" aria-label="Cari">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>NIM</th>
+              <th>Nama</th>
+              <th>Jurusan</th>
+              <th>Email</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+
+      <div class="table-footer">
+        <p id="info">Menampilkan 0 data</p>
+        <div class="pagination" id="pagination"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="D:\Coolyeah\PWeb\W5\app.js"></script>
+</body>
+</html>
