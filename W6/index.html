@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Registrasi Mata Kuliah</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <h1>Registrasi Mata Kuliah</h1>
+  <p class="sub">Semester Ganjil 2026/2027</p>
+  <hr>
+
+  <form id="reg" novalidate autocomplete="off">
+    <div class="row">
+      <label for="nama">Nama mahasiswa</label>
+      <div class="col">
+        <div class="combo">
+          <input id="nama" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false"
+            aria-controls="nama-list" aria-describedby="nama-note nama-err" autocapitalize="words"
+            spellcheck="false" maxlength="60">
+          <ul id="nama-list" class="listbox" role="listbox" aria-label="Saran nama mahasiswa" hidden></ul>
+        </div>
+        <p class="note" id="nama-note">Ketik huruf pertama nama untuk melihat saran.</p>
+        <p class="error" id="nama-err" role="alert"></p>
+      </div>
+    </div>
+
+    <div class="row">
+      <label for="nim">NIM</label>
+      <div class="col">
+        <input id="nim" type="text" inputmode="numeric" maxlength="10" aria-describedby="nim-note nim-err">
+        <p class="note" id="nim-note">10 digit. Terisi otomatis jika Anda memilih saran nama.</p>
+        <p class="error" id="nim-err" role="alert"></p>
+      </div>
+    </div>
+
+    <div class="row">
+      <label for="matkul">Mata kuliah</label>
+      <div class="col">
+        <select id="matkul" aria-describedby="matkul-err"><option value="">- Pilih mata kuliah -</option></select>
+        <p class="error" id="matkul-err" role="alert"></p>
+      </div>
+    </div>
+
+    <div class="row">
+      <label for="dosen">Dosen</label>
+      <div class="col">
+        <select id="dosen" disabled aria-describedby="dosen-err"><option value="">- Pilih mata kuliah dulu -</option></select>
+        <p class="error" id="dosen-err" role="alert"></p>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button type="submit" class="btn primary">Simpan</button>
+      <button type="button" class="btn plain" id="reset">Batal</button>
+    </div>
+    <p class="status" id="status" role="status"></p>
+  </form>
+
+  <h2>Data registrasi</h2>
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th>No.</th><th>Nama</th><th>NIM</th><th>Mata kuliah</th><th>Dosen</th></tr>
+      </thead>
+      <tbody id="regs"></tbody>
+    </table>
+    <p class="empty" id="empty">Belum ada data registrasi.</p>
+  </div>
+  <p class="note" style="margin-top:12px">Nama, NIM, dan dosen di halaman ini adalah data contoh.</p>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
