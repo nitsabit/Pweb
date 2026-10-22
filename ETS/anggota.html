@@ -1,0 +1,71 @@
+<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Daftar Anggota</title><link rel="stylesheet" href="style.css"></head><body>
+<div id="nav"></div>
+<main class="page">
+ <div class="card">
+  <div class="toolbar">
+    <h2>Data Anggota</h2>
+    <div class="search"><input id="q" placeholder="Cari nama atau NIM/NIP..."><a class="btn" href="daftar.html">+ Anggota</a></div>
+  </div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>No</th><th>NIM/NIP</th><th>Nama</th><th>Program Studi</th><th>Jenis</th><th>Email</th><th>Aksi</th></tr></thead>
+    <tbody id="body"></tbody></table></div>
+  <div class="pager"><span id="info"></span><div id="pages"></div></div>
+ </div>
+</main>
+
+<dialog id="detail"><h3>Detail Anggota</h3><dl id="dl"></dl>
+  <div class="actions"><button class="btn gray" onclick="detail.close()">Tutup</button></div></dialog>
+<dialog id="confirm"><h3>Hapus anggota?</h3><p id="cmsg"></p>
+  <div class="actions"><button class="btn red" id="yes">Hapus</button><button class="btn gray" onclick="confirm_.close()">Batal</button></div></dialog>
+
+<div id="foot"></div>
+<script src="app.js"></script>
+<script>
+layout('anggota');
+const PER = 5; let page = 1, delId = null;
+const detail = document.getElementById('detail'), confirm_ = document.getElementById('confirm');
+
+function filtered(){
+  const q = document.getElementById('q').value.trim().toLowerCase();
+  return getAll().filter(a => a.nama.toLowerCase().includes(q) || a.nim.toLowerCase().includes(q));
+}
+function render(){
+  const list = filtered(), total = list.length, pages = Math.max(1, Math.ceil(total/PER));
+  if(page > pages) page = pages;
+  const start = (page-1)*PER, rows = list.slice(start, start+PER);
+  document.getElementById('body').innerHTML = rows.length ? rows.map((a,i)=>`
+    <tr><td>${start+i+1}</td><td>${esc(a.nim)}</td><td>${esc(a.nama)}</td><td>${esc(a.prodi)}</td><td>${esc(a.jenis)}</td><td>${esc(a.email)}</td>
+    <td class="act"><button class="btn light sm" onclick="showDetail(${a.id})">Detail</button>
+    <a class="btn sm" href="daftar.html?id=${a.id}">Edit</a>
+    <button class="btn red sm" onclick="askDelete(${a.id})">Hapus</button></td></tr>`).join('')
+    : `<tr><td colspan="7" class="empty">Data tidak ditemukan</td></tr>`;
+  document.getElementById('info').textContent = total ? `Menampilkan ${start+1} - ${start+rows.length} dari ${total} data` : 'Tidak ada data';
+  let p = `<button ${page===1?'disabled':''} onclick="go(${page-1})">«</button>`;
+  for(let i=1;i<=pages;i++) p += `<button class="${i===page?'on':''}" onclick="go(${i})">${i}</button>`;
+  p += `<button ${page===pages?'disabled':''} onclick="go(${page+1})">»</button>`;
+  document.getElementById('pages').innerHTML = p;
+}
+function go(n){ page = n; render(); }
+document.getElementById('q').addEventListener('input', ()=>{ page = 1; render(); });
+
+function showDetail(id){
+  const a = getAll().find(x=>x.id===id); if(!a) return toast('Data tidak ditemukan','error');
+  const f = [['Nama',a.nama],['NIM/NIP',a.nim],['Program Studi',a.prodi],['Alamat',a.alamat],['No. Telepon',a.telp],['Email',a.email],['Keanggotaan',a.jenis]];
+  document.getElementById('dl').innerHTML = f.map(([k,v])=>`<dt>${k}</dt><dd>${esc(v)}</dd>`).join('');
+  detail.showModal();
+}
+function askDelete(id){
+  const a = getAll().find(x=>x.id===id); if(!a) return;
+  delId = id; document.getElementById('cmsg').textContent = `Anggota "${a.nama}" akan dihapus permanen.`;
+  confirm_.showModal();
+}
+document.getElementById('yes').onclick = () => {
+  try{
+    saveAll(getAll().filter(x=>x.id!==delId));
+    toast('Data anggota berhasil dihapus');
+  }catch(e){ toast('Gagal menghapus data','error'); }
+  confirm_.close(); render();
+};
+render();
+</script></body></html>

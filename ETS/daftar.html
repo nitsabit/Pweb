@@ -1,0 +1,72 @@
+<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pendaftaran Anggota</title><link rel="stylesheet" href="style.css"></head><body>
+<div id="nav"></div>
+<main class="page">
+ <div class="card form-card">
+  <h2 id="title">Pendaftaran Anggota</h2>
+  <form id="f" novalidate>
+    <label for="nama">Nama Lengkap</label><input id="nama" placeholder="Masukkan nama lengkap"><div class="err"></div>
+    <label for="nim">NIM/NIP</label><input id="nim" placeholder="Masukkan NIM/NIP"><div class="err"></div>
+    <label for="prodi">Program Studi</label><select id="prodi"><option value="">Pilih program studi</option></select><div class="err"></div>
+    <label for="alamat">Alamat</label><textarea id="alamat" rows="3" placeholder="Masukkan alamat"></textarea><div class="err"></div>
+    <label for="telp">Nomor Telepon</label><input id="telp" type="tel" placeholder="08xxxxxxxxxx"><div class="err"></div>
+    <label for="email">Email</label><input id="email" type="email" placeholder="Masukkan email"><div class="err"></div>
+    <label for="jenis">Jenis Keanggotaan</label>
+    <select id="jenis"><option value="">Pilih jenis keanggotaan</option><option>Mahasiswa</option><option>Dosen</option><option>Tenaga Kependidikan</option></select><div class="err"></div>
+    <div class="actions">
+      <button class="btn" type="submit">Simpan</button>
+      <a class="btn gray" href="anggota.html">Batal</a>
+      <button class="btn red" type="reset">Reset</button>
+    </div>
+  </form>
+ </div>
+</main>
+<div id="foot"></div>
+<script src="app.js"></script>
+<script>
+layout('daftar');
+const $ = id => document.getElementById(id);
+const fields = ['nama','nim','prodi','alamat','telp','email','jenis'];
+PRODI.forEach(p => $('prodi').insertAdjacentHTML('beforeend', `<option>${p}</option>`));
+
+const editId = Number(new URLSearchParams(location.search).get('id')) || null;
+if(editId){
+  const a = getAll().find(x=>x.id===editId);
+  if(a){ $('title').textContent = 'Edit Data Anggota'; fields.forEach(k => $(k).value = a[k]); }
+  else { flash('Data anggota tidak ditemukan','error'); location.href = 'anggota.html'; }
+}
+
+function setErr(id, msg){
+  const el = $(id); el.classList.toggle('invalid', !!msg);
+  el.parentNode.querySelector(`#${id} + .err`).textContent = msg || '';
+  return !msg;
+}
+function validate(){
+  const v = Object.fromEntries(fields.map(k => [k, $(k).value.trim()]));
+  const list = getAll();
+  let ok = true;
+  ok = setErr('nama', v.nama.length < 3 ? 'Nama minimal 3 karakter' : '') && ok;
+  ok = setErr('nim', !/^\d{5,20}$/.test(v.nim) ? 'NIM/NIP harus angka (5–20 digit)'
+        : list.some(a => a.nim === v.nim && a.id !== editId) ? 'NIM/NIP sudah terdaftar' : '') && ok;
+  ok = setErr('prodi', !v.prodi ? 'Pilih program studi' : '') && ok;
+  ok = setErr('alamat', v.alamat.length < 5 ? 'Alamat minimal 5 karakter' : '') && ok;
+  ok = setErr('telp', !/^(\+62|0)\d{8,13}$/.test(v.telp) ? 'Nomor telepon tidak valid' : '') && ok;
+  ok = setErr('email', !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email) ? 'Format email tidak valid' : '') && ok;
+  ok = setErr('jenis', !v.jenis ? 'Pilih jenis keanggotaan' : '') && ok;
+  return ok ? v : null;
+}
+$('f').addEventListener('submit', e => {
+  e.preventDefault();
+  const v = validate();
+  if(!v) return toast('Periksa kembali isian formulir','error');
+  try{
+    const list = getAll();
+    if(editId){ const i = list.findIndex(a=>a.id===editId); list[i] = {...list[i], ...v}; }
+    else list.push({id: Date.now(), ...v});
+    saveAll(list);
+    flash(editId ? 'Data anggota berhasil diperbarui' : 'Anggota baru berhasil didaftarkan');
+    location.href = 'anggota.html';
+  }catch(err){ toast('Gagal menyimpan data','error'); }
+});
+$('f').addEventListener('reset', () => document.querySelectorAll('.err').forEach(e=>e.textContent=''));
+</script></body></html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Perpustakaan Universitas</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+<body>
+<div id="nav"></div>
+<main>
+<section class="hero" id="beranda">
+  <span class="badge">📖 Buka setiap hari kerja</span>
+  <h1>Selamat datang</h1>
+  <p class="lead">di Perpustakaan Universitas</p>
+  <p class="desc">Temukan koleksi, daftarkan keanggotaan, dan kelola data anggota perpustakaan dengan mudah dalam satu tempat.</p>
+  <div class="btns"><a class="btn light" href="anggota.html">Lihat anggota</a><a class="btn dark" href="daftar.html">Daftar</a></div>
+</section>
+
+<div class="stats">
+  <div class="stat"><b>10.000+</b><span>Koleksi buku</span></div>
+  <div class="stat"><b>3</b><span>Jenis keanggotaan</span></div>
+  <div class="stat"><b>24/7</b><span>Akses digital</span></div>
+</div>
+
+<section class="section reveal" id="layanan">
+  <div class="eyebrow">Layanan</div>
+  <h2>Yang bisa kamu dapatkan</h2>
+  <div class="features">
+    <div class="feature"><div class="ico">📚</div><h3>Koleksi lengkap</h3><p>Ribuan buku, jurnal, dan skripsi untuk menunjang perkuliahan dan penelitian.</p></div>
+    <div class="feature"><div class="ico">🎓</div><h3>Akses untuk semua</h3><p>Terbuka bagi mahasiswa, dosen, dan tenaga kependidikan.</p></div>
+    <div class="feature"><div class="ico">💻</div><h3>Layanan Digital</h3><p>Pendaftaran anggota dan pencarian data secara online.</p></div>
+  </div>
+</section>
+
+<section class="section reveal" id="tentang" style="padding-top:0">
+  <div class="about">
+    <div>
+      <div class="eyebrow">Tentang</div>
+      <h2 style="margin-bottom:14px">Tentang Perpustakaan</h2>
+      <p>Perpustakaan Universitas menyediakan sumber belajar dan ruang baca bagi seluruh civitas akademika.</p>
+    </div>
+    <ul>
+      <li>✔ Ruang baca nyaman dan tenang</li>
+      <li>✔ Pendaftaran anggota online</li>
+      <li>✔ Petugas siap membantu</li>
+    </ul>
+  </div>
+</section>
+
+<section class="cta reveal">
+  <h2>Belum jadi anggota?</h2>
+  <p>Daftar sekarang, prosesnya hanya beberapa menit.</p>
+  <a class="btn" href="daftar.html">Daftar sekarang</a>
+</section>
+</main>
+<div id="foot"></div>
+<script src="app.js"></script>
+<script>
+layout('beranda');
+const io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.15});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body></html>

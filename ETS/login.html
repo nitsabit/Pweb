@@ -1,0 +1,17 @@
+<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Login Petugas</title><link rel="stylesheet" href="style.css"></head><body>
+<div id="nav"></div>
+<main class="page"><div class="card login">
+  <h2>Login Petugas</h2>
+  <form id="f"><label for="u">Username</label><input id="u" placeholder="Username"><label for="p">Password</label><input id="p" type="password" placeholder="Password">
+  <div class="actions"><button class="btn dark" style="width:100%" type="submit">Login</button></div></form>
+  <p style="color:#6b7280;font-size:13px;margin-bottom:0">*Simulasi antarmuka, belum terhubung ke server.</p>
+</div></main>
+<div id="foot"></div>
+<script src="app.js"></script>
+<script>
+layout('');
+document.getElementById('f').onsubmit = e => { e.preventDefault();
+  if(!u.value.trim() || !p.value) return toast('Username dan password wajib diisi','error');
+  flash('Login berhasil (simulasi)'); location.href = 'anggota.html'; };
+</script></body></html>
